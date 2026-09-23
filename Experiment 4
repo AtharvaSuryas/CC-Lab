@@ -1,0 +1,42 @@
+//Code for Lex File
+%{
+#include "y.tab.h"
+//Atharva Suryawanshi 24070521144
+%}
+%%
+[0-9]+ {return NUM;}
+[ \t] ;
+\n return 0;
+. {return yytext[0];}
+%%
+int yywrap(){return 1;}
+
+
+
+//Code for YACC file
+%{
+//Atharva Suryawanshi 24070521144
+#include<stdio.h>
+#include<stdlib.h>
+int yylex();
+int yyerror(char *s);
+%}
+
+%token NUM
+%%
+E:E'+'T|T;
+T:T'*'F|F;
+F:'('E')'|NUM;
+%%
+
+int yyerror(char *s){
+    printf("Invalid Expression\n");
+    return 0;
+}
+
+int main(){
+    printf("Enter Expression: ");
+    if(yyparse() == 0)
+        printf("Valid Expression\n");
+    return 0;
+}
